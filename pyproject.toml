@@ -1,0 +1,7 @@
+[tool.ruff]
+line-length = 100
+exclude = ["migrations", ".venv", "zillow-frontend"]
+target-version = "py38"
+
+[tool.ruff.format]
+quote-style = "double"
