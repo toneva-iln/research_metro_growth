@@ -77,6 +77,7 @@ export default function ZillowSearchApp() {
               label="State Name"
               value={state}
               onChange={(e) => setState(e.target.value)}
+              helperText="Enter a state code like TX or NC"
               fullWidth
               variant="outlined"
             />
@@ -86,6 +87,7 @@ export default function ZillowSearchApp() {
               label="Near Future Prediction"
               value={thirdLast}
               onChange={(e) => setThirdLast(e.target.value)}
+              helperText="Enter a filter like >0.3 or <=1.2"
               fullWidth
               variant="outlined"
             />
@@ -95,6 +97,7 @@ export default function ZillowSearchApp() {
               label="Next 6 months prediction"
               value={secondLast}
               onChange={(e) => setSecondLast(e.target.value)}
+              helperText="Enter a filter like >0.3 or <=1.2"
               fullWidth
               variant="outlined"
             />
@@ -104,6 +107,7 @@ export default function ZillowSearchApp() {
               label="Next 9-12 months prediction"
               value={last}
               onChange={(e) => setLast(e.target.value)}
+              helperText="Enter a filter like >0.3 or <=1.2"
               fullWidth
               variant="outlined"
             />
