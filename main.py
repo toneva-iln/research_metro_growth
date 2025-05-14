@@ -44,9 +44,6 @@ def search(
     second_last_col = df.columns[-2]
     third_last_col = df.columns[-3]
 
-    print("*** state", state)
-    print()
-
     if state:
         df = df[df["StateName"].str.lower() == state.lower()]
     if last is not None:
