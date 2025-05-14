@@ -10,7 +10,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import './App.css';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Link from '@mui/material/Link';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const darkTheme = createTheme({ palette: { mode: 'dark' } });
 
 export default function ZillowSearchApp() {
   const [state, setState] = useState('');
@@ -20,6 +29,7 @@ export default function ZillowSearchApp() {
   const [results, setResults] = useState([]);
   const [orderBy, setOrderBy] = useState('');
   const [order, setOrder] = useState('asc');
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     const params = new URLSearchParams();
@@ -28,9 +38,11 @@ export default function ZillowSearchApp() {
     if (secondLast) params.append('second_last', secondLast);
     if (thirdLast) params.append('third_last', thirdLast);
 
-    const res = await fetch(` http://127.0.0.1:8000/search?${params.toString()}`);
+    setLoading(true);
+    const res = await fetch(`http://127.0.0.1:8000/search?${params.toString()}`);
     const data = await res.json();
     setResults(data);
+    setLoading(false);
   };
 
   const handleSort = (column) => {
@@ -48,48 +60,109 @@ export default function ZillowSearchApp() {
   const columns = results.length > 0 ? Object.keys(results[0]) : [];
 
   return (
-    <div className="p-6 space-y-6 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold">Zillow Case Search</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TextField label="State Name" value={state} onChange={(e) => setState(e.target.value)} />
-        <TextField label="Near Future Prediction" value={last} onChange={(e) => setLast(e.target.value)} />
-        <TextField label="Next 6 months prediction" value={secondLast} onChange={(e) => setSecondLast(e.target.value)} />
-        <TextField label="Next 9-12 months prediction" value={thirdLast} onChange={(e) => setThirdLast(e.target.value)} />
-      </div>
-      <Button onClick={handleSearch}>Search</Button>
-      <div className="space-y-4">
-        {results.length === 0 && <p>No results found.</p>}
-        {results.length > 0 && (
-          <TableContainer component={Paper}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell key={column}>
-                      <TableSortLabel
-                        active={orderBy === column}
-                        direction={orderBy === column ? order : 'asc'}
-                        onClick={() => handleSort(column)}
-                      >
-                        {column}
-                      </TableSortLabel>
-                    </TableCell>
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <Container maxWidth="lg">
+      <Box py={5} textAlign="center">
+        <Typography variant="h4" gutterBottom>
+          Zillow Market Forecast Search
+        </Typography>
+        <Typography variant="subtitle1" color="textSecondary">
+          Explore housing price trends by state and prediction period
+        </Typography>
+      </Box>
+      <Box mb={4}>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField
+              label="State Name"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField
+              label="Near Future Prediction"
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField
+              label="Next 6 months prediction"
+              value={secondLast}
+              onChange={(e) => setSecondLast(e.target.value)}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField
+              label="Next 9-12 months prediction"
+              value={thirdLast}
+              onChange={(e) => setThirdLast(e.target.value)}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} textAlign="center">
+            <Button variant="contained" color="primary" onClick={handleSearch}>
+              Search
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+      {results.length === 0 ? (
+        loading ? (
+          <Box textAlign="center" my={4}><CircularProgress /></Box>
+        ) : (
+          <Typography align="center" color="textSecondary">No results found.</Typography>
+        )
+      ) : (
+
+        <TableContainer component={Paper} elevation={3}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell key={column} style={{ fontWeight: 'bold' }}>
+                    <TableSortLabel
+                      active={orderBy === column}
+                      direction={orderBy === column ? order : 'asc'}
+                      onClick={() => handleSort(column)}
+                    >
+                      {column}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {results.map((row, index) => (
+                <TableRow key={index} hover>
+                  {columns.map((col) => (
+                    <TableCell key={col}>{row[col]}</TableCell>
                   ))}
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {results.map((row, index) => (
-                  <TableRow key={index}>
-                    {columns.map((col) => (
-                      <TableCell key={col}>{row[col]}</TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </div>
-    </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    <Box mt={6} textAlign="center">
+        <Typography variant="body2" color="textSecondary">
+          This site uses public forecast data provided by{' '}
+          <Link href="https://files.zillowstatic.com/research/public_csvs/zhvf_growth/Metro_zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv?t=1741754571" target="_blank" rel="noopener">
+            Zillow
+          </Link>
+          .
+        </Typography>
+      </Box>
+    </Container>
+    </ThemeProvider>
   );
 }
