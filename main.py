@@ -77,13 +77,13 @@ def search(
     except KeyError:
         err_msg = "No results found for the following parameters: "
         if state:
-            err_msg += f"State  {state} "
+            err_msg += f"State:  {state}; "
         if third_last:
-            err_msg += f"Near Future Prediction value: {third_last}"
+            err_msg += f"Near Future Prediction value: {third_last}; "
         if second_last:
-            err_msg += f"Next 6 Months Prediction value: {second_last}"
+            err_msg += f"Next 6 Months Prediction value: {second_last}; "
         if last:
-            err_msg += f"Next 9-12 Months Prediction value: {last}"
+            err_msg += f"Next 9-12 Months Prediction value: {last}; "
 
         return JSONResponse(status_code=400, content={"error": err_msg})
 
