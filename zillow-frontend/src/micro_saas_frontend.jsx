@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
@@ -85,8 +84,8 @@ export default function ZillowSearchApp() {
           <Grid item xs={12} sm={6} md={3}>
             <TextField
               label="Near Future Prediction"
-              value={last}
-              onChange={(e) => setLast(e.target.value)}
+              value={thirdLast}
+              onChange={(e) => setThirdLast(e.target.value)}
               fullWidth
               variant="outlined"
             />
@@ -103,8 +102,8 @@ export default function ZillowSearchApp() {
           <Grid item xs={12} sm={6} md={3}>
             <TextField
               label="Next 9-12 months prediction"
-              value={thirdLast}
-              onChange={(e) => setThirdLast(e.target.value)}
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
               fullWidth
               variant="outlined"
             />
