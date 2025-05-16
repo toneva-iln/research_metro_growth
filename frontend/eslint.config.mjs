@@ -44,6 +44,11 @@ export default [
       globals: {
         test: 'readonly',
         expect: 'readonly',
+        React: 'readonly',
+        fetch: 'readonly',
+        document: 'readonly',
+        URLSearchParams: 'readonly',
+        process: 'readonly',
       },
     },
   }

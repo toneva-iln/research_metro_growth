@@ -20,10 +20,7 @@ app.add_middleware(
 )
 
 
-ZILLOW_CSV_URL = (
-    "https://files.zillowstatic.com/research/public_csvs/zhvf_growth/"
-    "Metro_zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv?t=1741754571"
-)
+ZILLOW_CSV_URL = "https://files.zillowstatic.com/research/public_csvs/zhvf_growth/Metro_zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv"
 
 
 def load_data():

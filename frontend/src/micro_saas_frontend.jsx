@@ -18,6 +18,7 @@ import Link from '@mui/material/Link';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const darkTheme = createTheme({ palette: { mode: 'dark' } });
 
 export default function ZillowSearchApp() {
@@ -38,7 +39,7 @@ export default function ZillowSearchApp() {
     if (thirdLast) params.append('third_last', thirdLast);
 
     setLoading(true);
-    const res = await fetch(`http://127.0.0.1:8000/search?${params.toString()}`);
+    const res = await fetch(`${API_BASE_URL}/search?${params.toString()}`);
     const data = await res.json();
     setResults(data);
     setLoading(false);
